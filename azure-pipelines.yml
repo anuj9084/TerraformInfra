@@ -1,0 +1,28 @@
+trigger: none
+
+resources:
+  repositories:
+    - repository: modules
+      type: git
+      name: Learners/Azurer-terraform-iac-framework
+      ref: refs/heads/feature
+      trigger: none
+
+pool:
+  name: AgentsPool
+
+steps:
+- checkout: self        # Repo1 checkout
+- checkout: modules     # Repo2 checkout
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: 'terraform init'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: 'terraform plan'
+
+
